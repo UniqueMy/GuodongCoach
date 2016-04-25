@@ -12,6 +12,7 @@
 #import "newamendViewController.h"
 #import "Reachability.h"
 #import <Bugly/CrashReporter.h>
+#import "PhotoManager.h"
 @interface AppDelegate ()
 {
     Reachability *hostReach;
@@ -183,6 +184,16 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     ingVC.isPush = YES;
     [self.nav pushViewController:ingVC animated:YES];
 
+}
+-(UIInterfaceOrientationMask) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    if ( [[PhotoManager getInstance] isHengping] ) {
+       // NSLog(@"横着的");
+        return UIInterfaceOrientationMaskLandscape;
+    }else{
+       // NSLog(@"所有方向");
+        return UIInterfaceOrientationMaskAll ;
+    }
+    
 }
 
 @end

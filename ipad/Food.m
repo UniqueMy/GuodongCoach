@@ -50,7 +50,7 @@
     UIView *foodAnalyze = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(dinner.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"20"];
     [self addSubview:foodAnalyze];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"20"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"20"] objectForKey:@"answer"] count] > 0)) {
        self.foodAnalyzeArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.foodAnalyzeArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"20"] objectForKey:@"answer"][0], nil];
@@ -61,7 +61,7 @@
     UIView *lawFood = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(foodAnalyze.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"21"];
     [self addSubview:lawFood];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"21"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"21"] objectForKey:@"answer"] count] > 0)) {
         self.lawFoodArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.lawFoodArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"21"] objectForKey:@"answer"][0], nil];
@@ -75,7 +75,7 @@
     UIView *sportTonic = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(loveFood.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"23"];
     [self addSubview:sportTonic];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"23"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"23"] objectForKey:@"answer"] count] > 0)) {
         self.sportTonicArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.sportTonicArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"23"] objectForKey:@"answer"][0], nil];
@@ -92,7 +92,7 @@
     UIView *foodPlan = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(remark.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"24"];
     [self addSubview:foodPlan];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"24"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"24"] objectForKey:@"answer"] count] > 0)) {
         self.foodPlanArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.foodPlanArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"24"] objectForKey:@"answer"][0], nil];

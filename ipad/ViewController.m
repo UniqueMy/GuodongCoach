@@ -64,27 +64,6 @@
     }
     return self;
 }
--(void)layoutSubviews{
-    NSLog(@"重写layout方法");
-    UIDeviceOrientation interfaceOrientation = (UIDeviceOrientation)[[UIApplication sharedApplication] statusBarOrientation];
-    if (interfaceOrientation == UIDeviceOrientationPortrait || interfaceOrientation == UIDeviceOrientationPortraitUpsideDown) {
-        //翻转为竖屏时
-        [self setVerticalFrame];
-    }else if (interfaceOrientation==UIDeviceOrientationLandscapeLeft || interfaceOrientation == UIDeviceOrientationLandscapeRight) {
-        //翻转为横屏时
-        [self setHorizontalFrame];
-    }
-}
--(void)setVerticalFrame
-{
-    NSLog(@"竖屏");
-}
-
--(void)setHorizontalFrame
-{
-    NSLog(@"横屏");
-    
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -231,11 +210,7 @@
 
 -(void)buttonClick:(UIButton *)button
 {
-    
-    
-    
-   
-    
+  
     switch (button.tag)
     {
         case 10:

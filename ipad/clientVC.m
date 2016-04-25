@@ -11,20 +11,18 @@
 #import "ClientComment.h"
 #import "XQViewController.h"
 #import "bodyTextVC.h"
-@implementation clientVC
-{
-   // NSString *order_id;
+@implementation clientVC {
+   
     ClientComment *baseclient;
     ClientComment *healthclient;
     ClientComment *bodyclient;
     NSString *sex;
     
-    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:27.00/255 green:27.00/255 blue:27.00/255 alpha:1];
-    UIView *daohangView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 64)];
+    UIView *daohangView       = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 64)];
     daohangView.backgroundColor = [UIColor redColor];
     [self.view addSubview:daohangView];
     
@@ -33,10 +31,10 @@
     daohangImage.userInteractionEnabled = YES;
     [daohangView addSubview:daohangImage];
     
-    UILabel *titlelabel=[[UILabel alloc]init];
-    titlelabel.text=@"客户资料";
-    titlelabel.font=[UIFont fontWithName:FONT size:36];
-    titlelabel.frame=CGRectMake(380, 17, 300, 30);
+    UILabel *titlelabel = [[UILabel alloc]init];
+    titlelabel.text     = @"客户资料";
+    titlelabel.font     = [UIFont fontWithName:FONT size:36];
+    titlelabel.frame    = CGRectMake(380, 17, 300, 30);
     [titlelabel setTextColor:[UIColor whiteColor]];
     titlelabel.textAlignment=NSTextAlignmentCenter;
     [daohangView addSubview:titlelabel];
@@ -74,7 +72,7 @@
     
     NSString *url =[NSString stringWithFormat:@"%@pad/?method=coach.details&order_id=%@",BASEURL,_order_id];
     [HttpTool postWithUrl:url params:nil contentType:CONTENTTYPE success:^(id responseObject) {
-        NSLog(@"res  %@",responseObject);
+      //  NSLog(@"res  %@",responseObject);
         if ([[responseObject objectForKey:@"rc"] intValue] == 0) {
             NSDictionary *data = [responseObject objectForKey:@"data"];
             

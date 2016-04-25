@@ -129,11 +129,11 @@
     [self.view addSubview:scrollView];
     
     
-    NSArray *array = @[@"日期：",@"时长：",@"教练员：",];
+    NSArray *array = @[@"日期：",@"时长(小时)：",@"教练员：",];
     for (int i = 0; i < 3; i++) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(70 + 300*i, 10, 120, 50)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(70 + 300*i, 10, 160, 50)];
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont fontWithName:FONT size:30];
+        label.font = [UIFont fontWithName:FONT size:28];
         label.text =array[i];
         [scrollView addSubview:label];
         
@@ -151,7 +151,7 @@
     [datetextField setValue:[UIFont boldSystemFontOfSize:28] forKeyPath:@"_placeholderLabel.font"];
     [scrollView addSubview:datetextField];
     
-    timetextField = [[UITextField alloc] initWithFrame:CGRectMake(460, 10, 200, 50)];
+    timetextField = [[UITextField alloc] initWithFrame:CGRectMake(515, 10, 145, 50)];
     timetextField.borderStyle =UITextBorderStyleRoundedRect;
     timetextField.textAlignment = 1;
     timetextField.delegate = self;

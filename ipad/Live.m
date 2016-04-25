@@ -42,7 +42,7 @@
     UIView *sleepStatus = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(titleLabel.frame) + 20, 800, 27) quesDict:questionDict numberWithKey:@"11"];
     [self addSubview:sleepStatus];
     //选择答案数组取值
-    if (![[[questionDict objectForKey:@"11"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[questionDict objectForKey:@"11"] objectForKey:@"answer"] count] > 0)) {
         self.sleepStatusArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.sleepStatusArray =[[NSArray alloc] initWithObjects:[[questionDict objectForKey:@"11"] objectForKey:@"answer"][0], nil];
@@ -57,7 +57,7 @@
     UIView *smoke = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(remark.frame) + 15, 500, 27) quesDict:questionDict numberWithKey:@"10"];
     [self addSubview:smoke];
     //选择答案数组取值
-    if (![[[questionDict objectForKey:@"10"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[questionDict objectForKey:@"10"] objectForKey:@"answer"] count] > 0)) {
         self.smokeArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.smokeArray =[[NSArray alloc] initWithObjects:[[questionDict objectForKey:@"10"] objectForKey:@"answer"][0], nil];
@@ -65,7 +65,7 @@
     //吸烟数量
     smokeNumber = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(smoke.frame) + 15, 500, 27) quesDict:questionDict numberWithKey:@"12"];
     //选择答案数组取值
-    if (![[[questionDict objectForKey:@"12"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[questionDict objectForKey:@"12"] objectForKey:@"answer"] count] > 0)) {
         self.smokeNumberArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.smokeNumberArray =[[NSArray alloc] initWithObjects:[[questionDict objectForKey:@"12"] objectForKey:@"answer"][0], nil];
@@ -78,7 +78,7 @@
     UIView *drink = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(smokeNumber.frame) + 15, 500, 27) quesDict:questionDict numberWithKey:@"13"];
     [self addSubview:drink];
     //选择答案数组取值
-    if (![[[questionDict objectForKey:@"13"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[questionDict objectForKey:@"13"] objectForKey:@"answer"] count] > 0)) {
         self.drinkArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.drinkArray =[[NSArray alloc] initWithObjects:[[questionDict objectForKey:@"13"] objectForKey:@"answer"][0], nil];
@@ -86,7 +86,7 @@
     //饮酒数量
     drinkNumber = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(drink.frame) + 15, 500, 27) quesDict:questionDict numberWithKey:@"14"];
     //选择答案数组取值
-    if (![[[questionDict objectForKey:@"14"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[questionDict objectForKey:@"14"] objectForKey:@"answer"] count] > 0)) {
         self.drinkNumberArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.drinkNumberArray =[[NSArray alloc] initWithObjects:[[questionDict objectForKey:@"14"] objectForKey:@"answer"][0], nil];

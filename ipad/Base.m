@@ -25,7 +25,7 @@
     
     if (self) {
         self.frame = frame;
-        NSLog(@"base %@",dict);
+       // NSLog(@"base %@",dict);
         baseDict = dict;
         titleString = title;
         [self createUIwithQuesttionDict:[dict objectForKey:@"ques"]];
@@ -63,7 +63,7 @@
         
         UITextField *textField = [HttpTool textFieldWithFrame:CGRectMake(CGRectGetMaxX(label.frame), CGRectGetMinY(label.frame), underLine.bounds.size.width, label.bounds.size.height) tag:a];
         if (a == 3) {
-            if (![[[questiongDict objectForKey:[NSString stringWithFormat:@"%d",a]] objectForKey:@"answer"] count] > 0) {
+            if (!([[[questiongDict objectForKey:[NSString stringWithFormat:@"%d",a]] objectForKey:@"answer"] count] > 0)) {
                 textField.text = @"";
             }else{
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -71,13 +71,11 @@
                 [formatter setTimeStyle:NSDateFormatterShortStyle];
                 [formatter setDateFormat:@"YYYY-MM-dd"];
                 NSString *time = [[questiongDict objectForKey:[NSString stringWithFormat:@"%d",a]] objectForKey:@"answer"][0];
-                NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:[time intValue]];
-                NSLog(@"生日");
-                textField.text = [formatter stringFromDate:confromTimesp];
+                textField.text = time;
             }
            
         }else{
-            if (![[[questiongDict objectForKey:[NSString stringWithFormat:@"%d",a]] objectForKey:@"answer"] count] > 0) {
+            if (!([[[questiongDict objectForKey:[NSString stringWithFormat:@"%d",a]] objectForKey:@"answer"] count] > 0)) {
                 textField.text = @"";
             }else{
             textField.text = [[questiongDict objectForKey:[NSString stringWithFormat:@"%d",a]] objectForKey:@"answer"][0];

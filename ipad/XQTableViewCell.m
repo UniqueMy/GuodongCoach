@@ -26,6 +26,7 @@
 }
 -(void)initSubview
 {
+    // 上传成功
     // 把自定义的控件 变成了单元格的属性
     self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 20, 300, 30)];
     self.dateLabel.textColor = [UIColor whiteColor];

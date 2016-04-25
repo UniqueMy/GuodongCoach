@@ -12,6 +12,8 @@
 @implementation HttpTool
 
 
+
+
 #pragma mark Http的multipart的POST请求
 + (void)multipartPostWithUrl:(NSString *)urlStr params:(NSDictionary *)params fileDatas:(NSArray *)datas contentType:(NSString *)type success:(SuccessBlock)success fail:(FailBlock)fail {
     // 1.创建Http请求操作管理器

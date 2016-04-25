@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+
+
 @interface bodyTextVC : UIViewController<UITextFieldDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIAlertViewDelegate>
 @property (nonatomic,retain)NSString *order_id,*coachName;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;

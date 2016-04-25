@@ -16,7 +16,7 @@
     int viewweight;
     UITextField *textField;
     UITableView *_tableView;
-   
+    
 }
 - (id)init
 {
@@ -31,7 +31,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-   // self.view.frame =CGRectMake(viewheight/4, 0, viewWidth-viewheight/4, viewHeight-64);
+    // self.view.frame =CGRectMake(viewheight/4, 0, viewWidth-viewheight/4, viewHeight-64);
     self.view.backgroundColor =[UIColor colorWithRed:28.00/255 green:25.00/255 blue:25.00/255 alpha:1];
     self.view.userInteractionEnabled = YES;
     // 550, 150, 150, 50
@@ -72,7 +72,7 @@
     NSLog(@"url %@",url);
     [HttpTool postWithUrl:url params:dataDict contentType:CONTENTTYPE success:^(id responseObject) {
         NSLog(@"res  %@",[responseObject objectForKey:@"msg"] );
-         if ([[ responseObject objectForKey:@"rc"] intValue] == 0)
+        if ([[ responseObject objectForKey:@"rc"] intValue] == 0)
         {
             NSLog(@"data7777  %@",[responseObject objectForKey:@"data"]);
             NSArray *dataArray = [responseObject objectForKey:@"data"];
@@ -95,8 +95,9 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
         
         [alert show];
-
+        
     }];
+    [self.view endEditing:YES];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -106,7 +107,7 @@
 //设置单元格的内容
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  //  static NSString *cellidentifier = @"cell";
+    //  static NSString *cellidentifier = @"cell";
     
     searchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (!cell)
@@ -114,15 +115,24 @@
         cell = [[searchCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
         cell.backgroundColor = [UIColor colorWithRed:28.00/255 green:25.00/255 blue:25.00/255 alpha:1];
         
-       
+        
         
     }
     
     SearchComment *search = [self.request objectAtIndex:indexPath.row];
+    
     cell.nameLabel.text = search.name;
+    
+    
     cell.ageLabel.text =  [NSString stringWithFormat:@"%@岁", search.age];
+    
+    
     cell.address.text = search.area;
+    
+    
     self.order_id = search.order_id;
+    
+    
     return cell;
     
 }

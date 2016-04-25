@@ -10,7 +10,8 @@
 #import "histoyrText.h"
 #import "UIImage+JW.h"
 #import "SJAvatarBrowser.h"
-
+#import "UIImagePickerUpdateViewController.h"
+#import "PhotoManager.h"
 @implementation bodyTextVC
 {
     NSMutableData *imageData;//两个图片data合成一个data
@@ -38,16 +39,22 @@
     NSDictionary *nameDict;
     NSData *leftImageData;
     NSData *rightImageData;
+    
+    NSData *photoLeftData;
+    NSData *photoRightData;
+    
     NSString *tupian;
     NSString *shuju;
     UIView *saveView;
     UILabel * jingduLabel;
     
-     UIActionSheet* changesheet;
+    UIActionSheet* changesheet;
     UIAlertView *changeAlert;
+    UIAlertView *libraryAlertView;
+    
 }
 
-
+#warning  上传成功应把图片和数据分开  数据和图片均上传成功在跳转（?） 图片上传进度
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -62,8 +69,8 @@
     _phtotDatas = [[NSMutableArray alloc] initWithCapacity:0];
     self.view.backgroundColor = [UIColor colorWithRed:27.00/255 green:27.00/255 blue:27.00/255 alpha:1];
     
-    
-    changeAlert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"请选择获取方式" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"从相册获取",@"照相",nil];
+   
+    changeAlert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"请选择获取方式" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"从图库选择",@"照相",nil];
     changeAlert.delegate = self;
     
     changesheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"拍照" otherButtonTitles:@"从图库选择", nil];
@@ -127,8 +134,8 @@
     [TDButton addTarget:self action:@selector(gotohistory:) forControlEvents:UIControlEventTouchUpInside];
     [daohangView addSubview:TDButton];
     
-
-   
+    
+    
     
     [self createView];
     [self requestView];
@@ -149,7 +156,7 @@
         [rightImage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"after"]] placeholderImage:[UIImage imageNamed:@"body_jiahao"] options:SDWebImageProgressiveDownload progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         }];
-       
+        
         
     } fail:^(NSError *error) {
         NSLog(@"error  %@",error);
@@ -319,10 +326,11 @@
     }
     
     for (int a = 0; a < 2; a++) {
+        
         UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(190+a*360,107,200,50)];
         textField.borderStyle =UITextBorderStyleNone;
         textField.keyboardType=UIKeyboardTypeDefault;
-        
+        //  textField.backgroundColor = [UIColor greenColor];
         textField.textAlignment = 1;
         textField.delegate = self;
         textField.tag = 67+a;
@@ -336,7 +344,17 @@
             textField.userInteractionEnabled = NO;
         }
         [scrollView addSubview:textField];
+        
+        NSArray *array = @[@"CM",@"KG"];
+        UILabel *label  = [[UILabel alloc] initWithFrame:CGRectMake(330 + a*360, 107, 200, 50)];
+        label.textColor = [UIColor whiteColor];
+        label.text      = array[a];
+        label.font      = [UIFont fontWithName:@"Arial" size:30];
+        [scrollView addSubview:label];
     }
+    
+    
+    
     
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(208,238,190,62)];
     textField.borderStyle =UITextBorderStyleNone;
@@ -646,28 +664,14 @@
         if (_phtotDatas.count != 0) {
             
             // 30s超时设置
-             [self checkOverTime];
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"正在上传" delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
-            
-            [alert show];
-           
-            
+            [self checkOverTime];
+            // 图片上传
             NSString *imgeurl = [NSString stringWithFormat:@"%@pad/?method=coach.upbodyimg&order_id=%@&types=%ld",BASEURL,self.order_id,(long)button.tag];
-            [HttpTool multipartPostWithUrl:imgeurl params:nil fileDatas:_phtotDatas contentType:CONTENTTYPE success:^(id responseObject) {
-                
-                if ([[responseObject objectForKey:@"rc"] intValue] == 0) {
-                    
-                    [alert dismissWithClickedButtonIndex:0 animated:NO];
-                    [self removeTimer];  // 上传成功移除定时器
-                    [_phtotDatas removeAllObjects];
-                }
-            } fail:^(NSError *error) {
-                NSLog(@"error  %@",error);
-            }];
+            [self uploadImageWithURL:imgeurl BeforeData:photoLeftData AfterData:photoRightData type:NO];
+            
         }
         
-    }else{
+    } else {
         if (_phtotDatas.count != 0) {
             lastNumber = isopen;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"%@的照片没有保存,是否保存",[nameDict objectForKey:[NSString stringWithFormat:@"%d",isopen]]] delegate:self cancelButtonTitle:@"不用" otherButtonTitles:@"好的",nil];
@@ -714,16 +718,15 @@
                 
                 NSDictionary *dict = [responseObject objectForKey:@"data"];
                 if (dict.count > 0) {
-                    NSLog(@"有数据");
-                    // [photoleftimage setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"before"]]];
+                
                     [photoleftimage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"before"]] placeholderImage:nil options:SDWebImageProgressiveDownload progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                         NSLog(@"评估图片左  imageURL %@  error %@",imageURL,error);
                     }];
                     
-                   [photorightimage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"after"]] placeholderImage:nil options:SDWebImageProgressiveDownload progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                    [photorightimage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"after"]] placeholderImage:nil options:SDWebImageProgressiveDownload progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                          NSLog(@"评估图片you  imageURL %@  error %@",imageURL,error);
+                        NSLog(@"评估图片you  imageURL %@  error %@",imageURL,error);
                     }];
                 }
                 else
@@ -743,8 +746,6 @@
         
         isopen = (int)button.tag;
     }
-    //  lastNumber = (int)button.tag;
-    
 }
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
@@ -754,54 +755,31 @@
         
         if (buttonIndex == 0) {
             [_phtotDatas removeAllObjects];
-        }
-        else
-        {   // 30s超时设置
+        } else {   // 30s超时设置
             [self checkOverTime];
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"正在上传" delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
-            
-            [alert show];
-            
+
+            // 图片上传
             NSString *imgeurl = [NSString stringWithFormat:@"%@pad/?method=coach.upbodyimg&order_id=%@&types=%d",BASEURL,self.order_id,lastNumber];
-            [HttpTool multipartPostWithUrl:imgeurl params:nil fileDatas:_phtotDatas contentType:CONTENTTYPE success:^(id responseObject) {
-                if ([[responseObject objectForKey:@"rc"] intValue] == 0) {
-                    [alert dismissWithClickedButtonIndex:0 animated:NO];
-                    [self removeTimer];  // 上传成功移除定时器
-                    NSLog(@"切换保存成功");
-                    
-                }
-            } fail:^(NSError *error) {
-                NSLog(@"error  %@",error);
-            }];
-            [_phtotDatas removeAllObjects];
+            [self uploadImageWithURL:imgeurl BeforeData:photoLeftData AfterData:photoRightData type:NO];
         }
-    }  else {
-        _imagePickerController = [[UIImagePickerController alloc] init];
-        
-        if (buttonIndex == 0)
-            return;
+    } else {
+        if (buttonIndex == 0) return;
         
         // 1.设置照片源
         if (buttonIndex == 2) {
             // 拍照
-            _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        }
-        else {
+            [self imagePickerForCamera];
+            
+        } else {
             // 从照片库选择
-            _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            [[PhotoManager getInstance] setShuping];
+            [self imagePickerForLibrary];
         }
-        // 2.允许编辑
-        //   _imagePickerController.allowsEditing = YES;
-        // 3.设置代理
-        _imagePickerController.delegate = self;
-        // 4.显示照片选择控制器
-        [self presentViewController:_imagePickerController animated:YES completion:nil];
-        // NSLog(@"action %ld",(long)actionSheet.tag);
         
         switch (alertView.tag) {
             case 444:
-               photo = @"left";
+                photo = @"left";
                 break;
             case 555:
                 photo = @"right";
@@ -816,12 +794,24 @@
             default:
                 break;
         }
-       
     }
+}
+- (void)imagePickerForCamera {
     
+    _imagePickerController          = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
+}
+- (void)imagePickerForLibrary {
     
+    _imagePickerController          = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:_imagePickerController animated:YES completion:nil];
     
 }
+
 -(void)timerFired
 {
     [succAlert dismissWithClickedButtonIndex:0 animated:NO];
@@ -831,14 +821,14 @@
     photo = @"";
     where = @"";
     
-   changeAlert.tag = gesture.view.tag;;
+    changeAlert.tag = gesture.view.tag;;
     [changeAlert show];
 }
 -(void)photo:(UIButton *)button
 {
     photo = @"";
     where = @"";
-   
+    
     changeAlert.tag = button.tag;;
     [changeAlert show];
 }
@@ -847,7 +837,7 @@
 {
     NSLog(@"协议方法");
     if ([where isEqualToString:@"left"]) {
-       
+        
         leftImage.image=info[UIImagePickerControllerOriginalImage];
         leftImageData = UIImageJPEGRepresentation(leftImage.image, .7);
         // 封装字典
@@ -856,7 +846,7 @@
     }
     else if([where isEqualToString:@"right"])
     {
-       
+        
         rightImage.image=info[UIImagePickerControllerOriginalImage];
         rightImageData = UIImageJPEGRepresentation(rightImage.image, .7);
         NSDictionary *dict = @{@"after":rightImageData};
@@ -867,7 +857,7 @@
     else if ([photo isEqualToString:@"left"]) // 六个部位左
     {
         [photoleftimage setImage:info[UIImagePickerControllerOriginalImage]];
-        NSData *photoLeftData = UIImageJPEGRepresentation(photoleftimage.image, .7);
+        photoLeftData = UIImageJPEGRepresentation(photoleftimage.image, .7);
         // 封装字典
         
         NSDictionary *dict = @{@"before": photoLeftData};
@@ -878,27 +868,45 @@
     }
     else // 六个部位右
     {
-       
+        
         [photorightimage setImage:info[UIImagePickerControllerOriginalImage]];
-       
-        NSData *data = UIImageJPEGRepresentation(photorightimage.image, .7);
+        
+        photoRightData = UIImageJPEGRepresentation(photorightimage.image, .7);
         
         // 封装字典
         NSString *key = @"after";
-        NSDictionary *dict = @{key: data};
+        NSDictionary *dict = @{key: photoRightData};
         [_phtotDatas addObject:dict];
     }
+    /**
+     *  保存到相册
+     */
     
+    int type = picker.sourceType;
+    if (type == 1) {
+        UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage],
+                                       self,
+                                       nil,
+                                       nil);
+        
+    }
     NSLog(@"_phototdata  %lu",(unsigned long)_phtotDatas.count);
     NSLog(@"_image  %lu",(unsigned long)_imageDatas.count);
-    
+    [[PhotoManager getInstance] setHengping];
     [picker dismissViewControllerAnimated:YES completion:nil];
     
 }
+-(void) imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [[PhotoManager getInstance] setHengping];
+    [picker dismissViewControllerAnimated:YES completion:^{
+    }];
+    NSLog(@"取消");
+}
+
 -(void)saveButton:(UIButton *)button
 {
     NSLog(@"保存 %ld",(long)button.tag);
-
+    
     
     BOOL ret = [bodyTextVC isValidate:[(UITextField *)[self.view viewWithTag:1] text]];
     if (!ret)
@@ -992,39 +1000,25 @@
                                    @"flexible":  [(UITextField *)[self.view viewWithTag:71] text],
                                    @"order_id":self.order_id
                                    };
-            ///*push_ups -- 俯卧撑   sit_ups -- 仰卧起坐  flexible 柔韧度*/
-            //    NSLog(@"dict  %@",dict);
-            NSLog(@"dict  %@",dict.allValues);
+            
             // 30s超时设置
             
             [HttpTool postWithUrl:url params:dict contentType:CONTENTTYPE success:^(id responseObject) {
-                NSLog(@"res   %@",responseObject);
+               
                 
                 if ([[responseObject objectForKey:@"rc"] intValue]== 0) {
-                   
+                    
                     if ([where isEqualToString:@"left"]||[where isEqualToString:@"right"]) {
                         // 30s超时设置
                         [self checkOverTime];
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"正在上传" delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
-                        
-                        [alert show];
+                       
                         NSString *imgeurl = [NSString stringWithFormat:@"%@pad/?method=coach.upbodyimg&order_id=%@&types=%ld",BASEURL,self.order_id,(long)button.tag];
-                        [HttpTool multipartPostWithUrl:imgeurl params:nil fileDatas:_imageDatas contentType:CONTENTTYPE success:^(id responseObject) {
-                            NSLog(@"图片上传res  %@",responseObject);
-                            [alert setMessage:@"保存成功"];
-                            [NSThread sleepForTimeInterval:2.0];
-                            [alert dismissWithClickedButtonIndex:0 animated:NO];
-                            [self removeTimer];  // 上传成功移除定时器
-                            [self.navigationController popViewControllerAnimated:YES];
-                        } fail:^(NSError *error) {
-                            NSLog(@"error  %@",error);
-                        }];
-                    }else{
+                        [self uploadImageWithURL:imgeurl BeforeData:leftImageData AfterData:rightImageData type:YES];
+                        
+                    
+                    } else {
                         [self.navigationController popViewControllerAnimated:YES];
                     }
-                    
-                    
-                    
                 }else{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:[responseObject objectForKey:@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                     
@@ -1106,7 +1100,7 @@
         float bili = yao / tun;
         textField22.text = [NSString stringWithFormat:@"%.2f",bili];
         
-        NSLog(@"yao  %f   tun  %f   bili  %f   textField  %@",yao,tun,bili,textField22.text);
+       // NSLog(@"yao  %f   tun  %f   bili  %f   textField  %@",yao,tun,bili,textField22.text);
     }
 }
 -(void)magnifyImage:(UIGestureRecognizer *)gesture
@@ -1140,7 +1134,7 @@
 // 超时设置
 - (void)checkOverTime {
     
-  uploadTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(overTimeRemoveAlert) userInfo:nil repeats:YES];
+    uploadTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(overTimeRemoveAlert) userInfo:nil repeats:YES];
 }
 - (void)overTimeRemoveAlert {
     
@@ -1155,6 +1149,86 @@
 - (void)removeTimer {
     
     [uploadTimer invalidate];
+}
+
+
+#pragma mark - 图片上传的请求
+- (void)uploadImageWithURL:(NSString *)url BeforeData:(NSData *)beforeData AfterData:(NSData *)afterData type:(BOOL)type{
+    UIView *sixImageView         = [UIView new];
+    sixImageView.backgroundColor = [UIColor whiteColor];
+    sixImageView.center          = self.view.center;
+    sixImageView.bounds          = CGRectMake(0, 0, 200, 100);
+    sixImageView.layer.cornerRadius  = 5;
+    sixImageView.layer.masksToBounds = YES;
+    [self.view addSubview:sixImageView];
+    
+    UILabel *title  = [UILabel new];
+    title.textColor = [UIColor blackColor];
+    title.font      = [UIFont fontWithName:FONT size:18];
+    title.text      = @"正在上传";
+    title.frame     = CGRectMake(0, 10, 200, 25);
+    title.textAlignment = 1;
+    [sixImageView addSubview:title];
+    
+    
+    UILabel *sixLabel  = [UILabel new];
+    sixLabel.textColor = [UIColor blackColor];
+    sixLabel.font      = [UIFont fontWithName:FONT size:16];
+    sixLabel.frame     = CGRectMake(0, CGRectGetMaxY(title.frame) + 10, 200, 20);
+   
+    sixLabel.textAlignment = 1;
+    [sixImageView addSubview:sixLabel];
+    
+  
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+    NSMutableURLRequest *request = [serializer multipartFormRequestWithMethod:@"POST" URLString:url
+                                                                   parameters:nil
+                                                    constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                                        
+                                                        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                                                        // 设置时间格式
+                                                        formatter.dateFormat = @"yyyyMMddHHmmss";
+                                                        NSString *str = [formatter stringFromDate:[NSDate date]];
+                                                        //按时间给传的文件命名
+                                                        NSString *imageName = [NSString stringWithFormat:@"%@.jpg", str];
+                                                        
+                                                        if (beforeData) {
+                                                            [formData appendPartWithFileData:beforeData name:@"before" fileName:imageName mimeType:@"jpg"];//传图片 imageData 图片所在的data
+                                                        }
+                                                        
+                                                        if (afterData) {
+                                                             [formData appendPartWithFileData:afterData name:@"after" fileName:imageName mimeType:@"jpg"];
+                                                        }
+                                                       
+                                                        
+                                                        
+                                                    }];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPRequestOperation *operation =
+    [manager HTTPRequestOperationWithRequest:request
+                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                         NSLog(@"Success %@", responseObject);
+                                         
+                                         [sixImageView removeFromSuperview];
+                                         [self removeTimer];
+                                         
+                                         if (type) {
+                                             [self.navigationController popViewControllerAnimated:YES];
+                                         }
+                                         
+                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         NSLog(@"Failure %@", error.description);
+                                     }];
+    [operation setUploadProgressBlock:^(NSUInteger __unused bytesWritten,
+                                        long long totalBytesWritten,
+                                        long long totalBytesExpectedToWrite) {
+       
+        sixLabel.text = [NSString stringWithFormat:@"%.1fKB/%.1fKB",totalBytesWritten/1024.0,totalBytesExpectedToWrite/1024.0];
+         NSLog(@"%@",sixLabel.text);
+        
+    }];
+    [operation start];
+
 }
 
 @end

@@ -38,7 +38,7 @@
     UIView *professionalSport = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(titleLabel.frame) + 20, 600, 27) quesDict:quesDict numberWithKey:@"25"];
     [self addSubview:professionalSport];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"25"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"25"] objectForKey:@"answer"] count] > 0)) {
         self.professionalSportArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.professionalSportArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"25"] objectForKey:@"answer"][0], nil];
@@ -54,7 +54,7 @@
     UIView *sportNumber = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(remark.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"26"];
     [self addSubview:sportNumber];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"26"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"26"] objectForKey:@"answer"] count] > 0)) {
         self.sportNumberArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.sportNumberArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"26"] objectForKey:@"answer"][0], nil];
@@ -64,7 +64,7 @@
     UIView *sportTime = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(sportNumber.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"27"];
     [self addSubview:sportTime];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"23"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"23"] objectForKey:@"answer"] count] > 0)) {
         self.sportTimeArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.sportTimeArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"23"] objectForKey:@"answer"][0], nil];
@@ -74,7 +74,7 @@
     UIView *whenSport = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(sportTime.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"28"];
     [self addSubview:whenSport];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"28"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"28"] objectForKey:@"answer"] count] > 0)) {
         self.whenSportArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.whenSportArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"28"] objectForKey:@"answer"][0], nil];

@@ -97,6 +97,8 @@
 		6348FF3B1ABBC63D00EEAE4F /* que1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6348FF331ABBC63D00EEAE4F /* que1.png */; };
 		634B59C91C4387F200A75C3D /* searchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 634B59C81C4387F200A75C3D /* searchCell.m */; };
 		634B6EEC1ABA74EC00F97E5B /* kuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 634B6EEB1ABA74EC00F97E5B /* kuang.png */; };
+		6354A9E41CC751F50058AD7C /* UIImagePickerUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6354A9E31CC751F50058AD7C /* UIImagePickerUpdateViewController.m */; };
+		6354A9E71CC752350058AD7C /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6354A9E61CC752350058AD7C /* PhotoManager.m */; };
 		635701531AC5035700427919 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635701521AC5035700427919 /* CFNetwork.framework */; };
 		635701551AC5036200427919 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635701541AC5036200427919 /* CoreFoundation.framework */; };
 		635701571AC5036A00427919 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635701561AC5036A00427919 /* CoreTelephony.framework */; };
@@ -318,6 +320,10 @@
 		634B59C71C4387F200A75C3D /* searchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchCell.h; sourceTree = "<group>"; };
 		634B59C81C4387F200A75C3D /* searchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchCell.m; sourceTree = "<group>"; };
 		634B6EEB1ABA74EC00F97E5B /* kuang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kuang.png; sourceTree = "<group>"; };
+		6354A9E21CC751F50058AD7C /* UIImagePickerUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImagePickerUpdateViewController.h; sourceTree = "<group>"; };
+		6354A9E31CC751F50058AD7C /* UIImagePickerUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImagePickerUpdateViewController.m; sourceTree = "<group>"; };
+		6354A9E51CC752350058AD7C /* PhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoManager.h; sourceTree = "<group>"; };
+		6354A9E61CC752350058AD7C /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		635701521AC5035700427919 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		635701541AC5036200427919 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		635701561AC5036A00427919 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -647,6 +653,10 @@
 				6344A4E71AB93E7600ED7978 /* sportAreaVC.m */,
 				6344A4ED1AB944A200ED7978 /* bodyTextVC.h */,
 				6344A4EE1AB944A200ED7978 /* bodyTextVC.m */,
+				6354A9E21CC751F50058AD7C /* UIImagePickerUpdateViewController.h */,
+				6354A9E31CC751F50058AD7C /* UIImagePickerUpdateViewController.m */,
+				6354A9E51CC752350058AD7C /* PhotoManager.h */,
+				6354A9E61CC752350058AD7C /* PhotoManager.m */,
 				63DCDBF71B61D9D0004921B2 /* UIImage+JW.h */,
 				63DCDBF81B61D9D0004921B2 /* UIImage+JW.m */,
 				63DCDBFA1B61DAB4004921B2 /* NSString+JW.h */,
@@ -1086,6 +1096,7 @@
 				63CA9CF01BA814D5002EE68B /* SJAvatarBrowser.m in Sources */,
 				634754C01AB8258F00D6C998 /* ingamendViewController.m in Sources */,
 				63EAAABF1BEC7745004D4833 /* UIImage+MultiFormat.m in Sources */,
+				6354A9E71CC752350058AD7C /* PhotoManager.m in Sources */,
 				633A9F321ABE77A1006DE7B3 /* AFURLSessionManager.m in Sources */,
 				63EAAAB51BEC7745004D4833 /* NSData+ImageContentType.m in Sources */,
 				6344A4F91AB9508900ED7978 /* historyCell.m in Sources */,
@@ -1115,6 +1126,7 @@
 				636B21AB1AB55E56006F5F35 /* searchView.m in Sources */,
 				6344A4EF1AB944A200ED7978 /* bodyTextVC.m in Sources */,
 				633A9F331ABE77A1006DE7B3 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				6354A9E41CC751F50058AD7C /* UIImagePickerUpdateViewController.m in Sources */,
 				636B21B11AB563EB006F5F35 /* practiceView.m in Sources */,
 				635FFEA91AD23533008611D3 /* XQTableViewCell.m in Sources */,
 				635FFEAC1AD270A5008611D3 /* XQComment.m in Sources */,
@@ -1296,7 +1308,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guodong.jiaolian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "812778ad-800d-4c63-b009-f990f270715d";
+				PROVISIONING_PROFILE = "9834885d-a758-49a4-a3d5-69fee9188ce2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/[Jpush]";
@@ -1322,8 +1334,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.guodong.jiaolian;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "812778ad-800d-4c63-b009-f990f270715d";
-				"PROVISIONING_PROFILE[sdk=*]" = "812778ad-800d-4c63-b009-f990f270715d";
+				PROVISIONING_PROFILE = "9834885d-a758-49a4-a3d5-69fee9188ce2";
+				"PROVISIONING_PROFILE[sdk=*]" = "9834885d-a758-49a4-a3d5-69fee9188ce2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "";

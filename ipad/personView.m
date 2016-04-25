@@ -35,11 +35,7 @@
     self.view.backgroundColor =[UIColor colorWithRed:28.00/255 green:25.00/255 blue:25.00/255 alpha:1];
     self.view.userInteractionEnabled = YES;
     
-    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-    CFShow((__bridge CFTypeRef)(infoDic));
-    NSString *appVersion = [infoDic objectForKey:@"CFBundleVersion"];
-    NSLog(@"appVersion %@",appVersion);
-
+   
   
     UILabel *Label =[[UILabel alloc] initWithFrame:CGRectMake(550, 150, 150, 50)];
     Label.textColor = [UIColor whiteColor];
@@ -70,7 +66,8 @@
     UILabel *version = [[UILabel alloc] initWithFrame:CGRectMake(680, 650, 200, 30)];
     version.textColor = [UIColor whiteColor];
     version.font = [UIFont fontWithName:FONT size:22];
-    version.text = [NSString stringWithFormat:@"版本号:%@",appVersion];
+    version.text = [NSString stringWithFormat:@"版本号:%@",
+                    [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     [self.view addSubview:version];
     
     self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(650,150,150,50)];

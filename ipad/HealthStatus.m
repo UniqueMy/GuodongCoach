@@ -46,7 +46,7 @@
     UIView *disease = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(muscle.frame) + 15, 600, 27) quesDict:quesDict numberWithKey:@"32"];
     [self addSubview:disease];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"32"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"32"] objectForKey:@"answer"] count] > 0)) {
         self.diseaseArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.diseaseArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"32"] objectForKey:@"answer"][0], nil];

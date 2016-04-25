@@ -41,7 +41,7 @@
     UIView *touchYoga = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(titleLabel.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"34"];
     [self addSubview:touchYoga];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"34"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"34"] objectForKey:@"answer"] count] > 0)) {
         self.touchYogaArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.touchYogaArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"34"] objectForKey:@"answer"][0], nil];
@@ -67,7 +67,7 @@
     UIView *joint = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(likeStyle.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"36"];
     [self addSubview:joint];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"36"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"36"] objectForKey:@"answer"] count] > 0)) {
         self.jointArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.jointArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"36"] objectForKey:@"answer"][0], nil];
@@ -77,7 +77,7 @@
     UIView *purpose = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(joint.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"37"];
     [self addSubview:purpose];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"37"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"37"] objectForKey:@"answer"] count] > 0)) {
         self.purposeArray = [[NSMutableArray alloc] initWithCapacity:0];
     }else{
         self.purposeArray = [[[quesDict objectForKey:@"37"] objectForKey:@"answer"] mutableCopy];
@@ -87,7 +87,7 @@
     UIView *endurance = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(purpose.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"38"];
     [self addSubview:endurance];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"38"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"38"] objectForKey:@"answer"] count] > 0)) {
         self.enduranceArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.enduranceArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"38"] objectForKey:@"answer"][0], nil];
@@ -97,7 +97,7 @@
     UIView *temperature = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(endurance.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"39"];
     [self addSubview:temperature];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"39"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"39"] objectForKey:@"answer"] count] > 0)) {
         self.temperatureArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.temperatureArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"39"] objectForKey:@"answer"][0], nil];
@@ -107,7 +107,7 @@
     UIView *whatTime = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(temperature.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"40"];
     [self addSubview:whatTime];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"40"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"40"] objectForKey:@"answer"] count] > 0)) {
         self.whatTimeArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.whatTimeArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"40"] objectForKey:@"answer"][0], nil];
@@ -117,7 +117,7 @@
     UIView *times = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(whatTime.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"41"];
     [self addSubview:times];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"41"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"41"] objectForKey:@"answer"] count] > 0)) {
         self.timesArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.timesArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"41"] objectForKey:@"answer"][0], nil];
@@ -127,7 +127,7 @@
     UIView *digestion = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(times.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"42"];
     [self addSubview:digestion];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"42"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"42"] objectForKey:@"answer"] count] > 0)) {
         self.digestionArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.digestionArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"42"] objectForKey:@"answer"][0], nil];
@@ -137,7 +137,7 @@
     UIView *affect = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(digestion.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"43"];
     [self addSubview:affect];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"43"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"43"] objectForKey:@"answer"] count] > 0)) {
         self.affectArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.affectArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"43"] objectForKey:@"answer"][0], nil];
@@ -147,7 +147,7 @@
     UIView *memory = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(affect.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"44"];
     [self addSubview:memory];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"44"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"44"] objectForKey:@"answer"] count] > 0)) {
         self.memoryArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.memoryArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"44"] objectForKey:@"answer"][0], nil];
@@ -157,7 +157,7 @@
     UIView *circulation = [self xuanViewWithFrame:CGRectMake(50, CGRectGetMaxY(memory.frame) + 15, 800, 27) quesDict:quesDict numberWithKey:@"45"];
     [self addSubview:circulation];
     //选择答案数组取值
-    if (![[[quesDict objectForKey:@"45"] objectForKey:@"answer"] count] > 0) {
+    if (!([[[quesDict objectForKey:@"45"] objectForKey:@"answer"] count] > 0)) {
         self.circulationArray = [[NSArray alloc] initWithObjects:@"0", nil];
     }else{
         self.circulationArray =[[NSArray alloc] initWithObjects:[[quesDict objectForKey:@"45"] objectForKey:@"answer"][0], nil];
