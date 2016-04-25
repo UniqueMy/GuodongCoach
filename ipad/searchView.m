@@ -115,20 +115,15 @@
         cell = [[searchCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
         cell.backgroundColor = [UIColor colorWithRed:28.00/255 green:25.00/255 blue:25.00/255 alpha:1];
         
-        
-        
     }
     
     SearchComment *search = [self.request objectAtIndex:indexPath.row];
     
     cell.nameLabel.text = search.name;
     
-    
     cell.ageLabel.text =  [NSString stringWithFormat:@"%@岁", search.age];
     
-    
     cell.address.text = search.area;
-    
     
     self.order_id = search.order_id;
     

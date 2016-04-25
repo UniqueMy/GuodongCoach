@@ -1214,6 +1214,9 @@
                                          
                                          if (type) {
                                              [self.navigationController popViewControllerAnimated:YES];
+                                             [_imageDatas removeAllObjects];
+                                         } else {
+                                             [_phtotDatas removeAllObjects];
                                          }
                                          
                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
