@@ -55,9 +55,6 @@
 
 
 - (void)createUI {
-    
-   
-    
    
     
     titleLabel                 = [UILabel new];
@@ -67,7 +64,8 @@
     titleLabel.textAlignment   = 1;
     titleLabel.textColor       = [UIColor blackColor];
     titleLabel.font            = [UIFont fontWithName:FONT size:18];
-    titleLabel.text            = @"大纲一";
+    ContentModel *model        = sectionArray[0];
+    titleLabel.text            = model.sectionName;
     [self addSubview:titleLabel];
     
     
@@ -96,7 +94,8 @@
     dateLabel.textAlignment   = 1;
     dateLabel.textColor       = [UIColor blackColor];
     dateLabel.font            = [UIFont fontWithName:FONT size:18];
-    dateLabel.text            = @"Day.1";
+     Content_Row_Model *rowModel = rowArray[0];
+    dateLabel.text            = rowModel.rowName;
     [self addSubview:dateLabel];
     
     
@@ -232,10 +231,23 @@
         ContentModel *model = sectionArray[indexPath.row];
         titleLabel.text     = model.sectionName;
         rowArray            = model.rowArray;
+        
+        /**
+         *  课程时间随着大纲的变化而改变默认值
+         */
+        Content_Row_Model *rowModel = rowArray[0];
+        dateLabel.text  = rowModel.rowName;
+        
         [titleTableView removeFromSuperview];
         [titleImageView setImage:[UIImage imageNamed:@"down"]];
         titleIsUp =! titleIsUp;
         [dateTableView reloadData];
+        
+        NSDictionary   *coachDict    = @{@"content_id":rowModel.row_number};
+        notification = [NSNotification notificationWithName:@"content_id" object:nil userInfo:coachDict];
+        
+        //通过通知中心发送通知  显示教练姓名  更换显示页
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
         
     } else {
         Content_Row_Model *rowModel = rowArray[indexPath.row];
@@ -250,6 +262,8 @@
         //通过通知中心发送通知  显示教练姓名  更换显示页
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     }
+   
+
     
 }
 @end

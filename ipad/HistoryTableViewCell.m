@@ -17,6 +17,7 @@
     UILabel *trainResult,      *showtrainResult;
     UILabel *completeCondition,*showCompleteCondition;
     UILabel *remark,           *showRemark;
+    UILabel *line;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -105,6 +106,7 @@
                                                  20);
         showStudentFeedback.textColor = baseColor;
         showStudentFeedback.font      = font;
+        showStudentFeedback.numberOfLines = 0;
         showStudentFeedback.text      = @"学员反馈";
         [self addSubview:showStudentFeedback];
         
@@ -128,6 +130,7 @@
         showtrainResult.textColor = baseColor;
         showtrainResult.font      = font;
         showtrainResult.text      = @"培训结果";
+        showtrainResult.numberOfLines = 0;
         [self addSubview:showtrainResult];
         
         completeCondition       = [UILabel new];
@@ -149,6 +152,7 @@
         showCompleteCondition.textColor = baseColor;
         showCompleteCondition.font      = font;
         showCompleteCondition.text      = @"当日培训完成情况";
+        showCompleteCondition.numberOfLines = 0;
         [self addSubview:showCompleteCondition];
         
         remark       = [UILabel new];
@@ -168,10 +172,13 @@
                                       20);
         showRemark.textColor = baseColor;
         showRemark.font      = font;
+        showRemark.numberOfLines = 0;
         showRemark.text      = @"备注";
         [self addSubview:showRemark];
 
-        
+        line = [UILabel new];
+        line.backgroundColor = [UIColor lightGrayColor];
+        [self addSubview:line];
     }
     return self;
 }
@@ -184,12 +191,16 @@
     showTrainPerson.text = historyComment.trainPerson;
     showCoachName.text       = historyComment.coachName;
    
-     CGSize feedbackSize = [historyComment.studentFeedback boundingRectWithSize:CGSizeMake(450, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil].size;
-    CGRect feedbackFrame      = studentFeedback.frame;
+    // 学员反馈
+     CGSize feedbackSize = [historyComment.studentFeedback boundingRectWithSize:CGSizeMake(450, MAXFLOAT)
+                                                                        options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font}
+                                                                        context:nil].size;
+    CGRect feedbackFrame      = showStudentFeedback.frame;
     feedbackFrame.size.height = feedbackSize.height;
-    studentFeedback.frame     = feedbackFrame;
-    showStudentFeedback.text      = historyComment.studentFeedback;
+    showStudentFeedback.frame = feedbackFrame;
+    showStudentFeedback.text  = historyComment.studentFeedback;
     
+    // 培训结果
     trainResult.frame     = CGRectMake(0,
                                        CGRectGetMaxY(showStudentFeedback.frame) + 30,
                                        100,
@@ -232,10 +243,9 @@
     showRemark.text             = historyComment.remark;
     
    
-    UILabel *line = [UILabel new];
+   
     line.frame    = CGRectMake(0, CGRectGetMaxY(showRemark.frame) + 5, 700, .5);
-    line.backgroundColor = [UIColor lightGrayColor];
-    [self addSubview:line];
+   
     self.height = CGRectGetMaxY(line.frame) + 10;
     
 }

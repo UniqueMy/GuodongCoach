@@ -11,5 +11,5 @@
 @interface HistoryTrainView : UIView
 
 @property (nonatomic,retain) NSString *coach_id;
-- (instancetype)initWithFrame:(CGRect)frame trainClassArray:(NSMutableArray *)array coach_id:(NSString *)coach;
+- (instancetype)initWithFrame:(CGRect)frame trainClassArray:(NSMutableArray *)array coach_id:(NSString *)coach content_id:(NSString *)contend;
 @end

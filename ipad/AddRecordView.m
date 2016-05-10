@@ -14,11 +14,13 @@
 #import "HistoryTrainView.h"
 @interface AddRecordView ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate>
 {
+    UILabel      *trainClass;
     UIScrollView *_scrollView;
     UITextField *trainPersonTF;
     UILabel     *studentFeedback;
     UITextView  *studentFeedbackTV;
     UILabel             *trainResult;
+    UIButton            *trainResultButton;
     UISegmentedControl  *trainResultSegment;
     NSMutableArray      *trainClassArray;
     UILabel     *completeCondition;
@@ -50,36 +52,27 @@
 - (void)createUI {
     
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,
-                                                                 0,
-                                                                 self.bounds.size.width,
-                                                                 self.bounds.size.height)];
-    _scrollView.userInteractionEnabled = YES;
-    _scrollView.delegate = self;
-    [self addSubview:_scrollView];
-    
-    
     UIColor *baseColor = [UIColor colorWithRed:112/255.0
                                          green:199/255.0
                                           blue:243/255.0
                                          alpha:1];
     
     
-    UILabel *trainClass  = [UILabel new];
+    trainClass           = [UILabel new];
     trainClass.frame     = CGRectMake(20, 30, 100, 20);
     trainClass.textColor = baseColor;
     trainClass.text          = @"培训课程";
     trainClass.font          = [UIFont fontWithName:@"Arial-BoldMT" size:19];
-    [_scrollView addSubview:trainClass];
+    [self addSubview:trainClass];
     
     
     
     chooseClassView *chooseView = [[chooseClassView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(trainClass.frame) + 20, trainClass.frame.origin.y - 5, 360, 30) superView:self trainClassArray:trainClassArray];
     chooseView.backgroundColor = [UIColor colorWithRed:112/255.0
-                                           green:199/255.0
-                                            blue:243/255.0
-                                           alpha:1];
-    [_scrollView addSubview:chooseView];
+                                                 green:199/255.0
+                                                  blue:243/255.0
+                                                 alpha:1];
+    [self addSubview:chooseView];
     
     
     UIButton *checkHistoryRecord = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -91,11 +84,24 @@
     [checkHistoryRecord setTintColor:[UIColor whiteColor]];
     [checkHistoryRecord setTitle:@"查看以往记录" forState:UIControlStateNormal];
     [checkHistoryRecord addTarget:self action:@selector(checkHistory:) forControlEvents:UIControlEventTouchUpInside];
-    [_scrollView addSubview:checkHistoryRecord];
+    [self addSubview:checkHistoryRecord];
+    
+    
+    
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,
+                                                                 CGRectGetMaxY(trainClass.frame) + 40,
+                                                                 self.bounds.size.width,
+                                                                 self.bounds.size.height - (CGRectGetMaxY(trainClass.frame) + 40))];
+    _scrollView.userInteractionEnabled = YES;
+    _scrollView.delegate = self;
+    [self addSubview:_scrollView];
+    
+    
     
     /*********培训人**********/
     UILabel *trainPerson  = [UILabel new];
-    trainPerson.frame     = CGRectMake(20, CGRectGetMaxY(trainClass.frame) + 40, 100, 20);
+    trainPerson.frame     = CGRectMake(20, 0, 100, 20);
     trainPerson.textColor = baseColor;
     trainPerson.text          = @"培训人:";
     trainPerson.font          = [UIFont fontWithName:@"Arial-BoldMT" size:19];
@@ -150,7 +156,7 @@
     trainResultSegment.tintColor = [UIColor clearColor];
     [trainResultSegment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     [_scrollView addSubview:trainResultSegment];
-    UIButton *trainResultButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    trainResultButton           = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     trainResultButton.frame     = CGRectMake(CGRectGetMinX(studentFeedbackTV.frame),
                                              CGRectGetMinY(trainResult.frame) - 5,
                                              200,
@@ -158,7 +164,7 @@
     [trainResultButton addTarget:self action:@selector(setTrainResult:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:trainResultButton];
     
-   
+    
     
     /*********当日培训完成情况**********/
     completeCondition       = [UILabel new];
@@ -205,8 +211,8 @@
     
     /**********保存按钮**************/
     saveButton       = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    saveButton.frame = CGRectMake((self.bounds.size.width - 150) / 2,
-                                  self.bounds.size.height - 30 - 40,
+    saveButton.frame = CGRectMake((_scrollView.bounds.size.width - 150) / 2,
+                                  _scrollView.bounds.size.height - 30 - 40,
                                   150,
                                   40);
     saveButton.titleLabel.font = [UIFont fontWithName:FONT size:22];
@@ -223,7 +229,7 @@
     
     
     /**
-     *  默认  
+     *  默认
      *
      *  培训课程为大纲一 Day.1
      *  培训结果为优
@@ -265,19 +271,14 @@
 }
 - (void)checkHistory:(UIButton *)button {
     NSLog(@"点击了查看历史记录");
-   
-    HistoryTrainView *history = [[HistoryTrainView alloc] initWithFrame:CGRectMake(0,
-                                                                                   0,
+    NSLog(@"历史 content %@",content_id);
+    
+    [_scrollView removeFromSuperview];
+    HistoryTrainView *history = [[HistoryTrainView alloc] initWithFrame:CGRectMake(20,
+                                                                                   CGRectGetMaxY(trainClass.frame) + 40,
                                                                                    self.bounds.size.width,
-                                                                                   self.bounds.size.height)
-                                                        trainClassArray:trainClassArray coach_id:coach_id];
-//    [UIView animateWithDuration:.5 animations:^{
-//        CGRect rect    = history.frame;
-//        rect.origin.x -= self.bounds.size.width;
-//        
-//        history.frame = rect;
-//    }];
-   
+                                                                                   self.bounds.size.height - (CGRectGetMaxY(trainClass.frame) + 40))
+                                                        trainClassArray:trainClassArray coach_id:coach_id content_id:content_id];
     [self addSubview:history];
     
 }
@@ -329,12 +330,12 @@
     int lastTVHeight   = CGRectGetMaxY(textView.frame);
     int space          = 45 * 2; // 间隔
     int textViewHeight = 40;     // textView的高度
-    int maxHeight      = lastTVHeight + space + textViewHeight;
+    int maxHeight      = lastTVHeight + space + textViewHeight + 90; // 90  _scrollView起始位置
     
     if (maxHeight > KeyHeightMax) {
         _scrollView.contentOffset = CGPointMake(0,maxHeight - KeyHeightMax);
     }
-    
+    NSLog(@"maxHeight %d   CHA %d",maxHeight,maxHeight - KeyHeightMax);
 }
 // 结束编辑时调用
 - (void)textViewDidEndEditing:(UITextView *)textView {
@@ -362,10 +363,14 @@
                                        CGRectGetMaxY(studentFeedbackTV.frame) + 30,
                                        100,
                                        20);
-    
+    trainResultButton.frame     = CGRectMake(CGRectGetMinX(studentFeedbackTV.frame),
+                                             CGRectGetMinY(trainResult.frame) - 5,
+                                             200,
+                                             30);
     CGRect trainResultTVFrame   = trainResultSegment.frame;
     trainResultTVFrame.origin.y = CGRectGetMinY(trainResult.frame) - 5,
     trainResultSegment.frame         = trainResultTVFrame;
+    trainResultSegment.backgroundColor = [UIColor orangeColor];
     
     
     completeCondition.frame = CGRectMake(20,
@@ -385,7 +390,7 @@
     remarkTVFrame.origin.y = CGRectGetMinY(remark.frame) - 10,
     remarkTV.frame         = remarkTVFrame;
     
-    int MaxHeight = self.bounds.size.height - 30 - 40;
+    int MaxHeight = _scrollView.bounds.size.height - 30 - 40;
     
     CGRect saveButtonFrame   = saveButton.frame;
     

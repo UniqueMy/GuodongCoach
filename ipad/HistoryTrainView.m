@@ -19,10 +19,11 @@
     UITableView    *_tableView;
     NSMutableArray *dataArray;
     NSMutableArray *cellArray;
-   
+    NSString       *content_id;
+    
 }
 
-- (instancetype)initWithFrame:(CGRect)frame trainClassArray:(NSMutableArray *)array coach_id:(NSString *)coach
+- (instancetype)initWithFrame:(CGRect)frame trainClassArray:(NSMutableArray *)array coach_id:(NSString *)coach content_id:(NSString *)contend
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -30,20 +31,25 @@
         trainClassArray      = [NSMutableArray array];
         trainClassArray      = array;
         self.coach_id        = coach;
+        content_id           = contend;
         [self createUI];
         [self startRequest];
     }
     return self;
 }
-
+//#pragma mark - 接收content_id
+//- (void)resultContent_id:(NSNotification *)notification {
+//    
+//    content_id = notification.userInfo[@"content_id"];
+//}
 - (void)startRequest {
     
     NSString *url = [NSString stringWithFormat:@"%@/pad/?method=train.search_recard",BASEURL];
     
     NSString *type =  self.coach_id.length == 0 ? @"1" : @"2";
     
-    NSDictionary *dict = @{@"type":type,@"coach_id":self.coach_id,@" filter_type ":@"all"};
-    
+    NSDictionary *dict = @{@"type":type,@"coach_id":self.coach_id,@"filter_type":@"content",@"filter_id":content_id};
+    NSLog(@"dict %@",dict);
     [HttpTool postWithUrl:url params:dict contentType:CONTENTTYPE success:^(id responseObject) {
         dataArray = [NSMutableArray array];
         cellArray = [NSMutableArray array];
@@ -59,38 +65,10 @@
 
 - (void)createUI {
     
-    UIColor *baseColor = [UIColor colorWithRed:112/255.0
-                                         green:199/255.0
-                                          blue:243/255.0
-                                         alpha:1];
-    
-    
-    UILabel *trainClass  = [UILabel new];
-    trainClass.frame     = CGRectMake(20, 30, 100, 20);
-    trainClass.textColor = baseColor;
-    trainClass.text          = @"培训课程";
-    trainClass.font          = [UIFont fontWithName:@"Arial-BoldMT" size:19];
-    [self addSubview:trainClass];
-    
-    
-    chooseClassView *chooseView = [[chooseClassView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(trainClass.frame) + 20, trainClass.frame.origin.y - 5, 360, 30) superView:self trainClassArray:trainClassArray];
-    [self addSubview:chooseView];
-    
-    UIButton *checkHistoryRecord = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    checkHistoryRecord.frame     = CGRectMake(CGRectGetMaxX(chooseView.frame) + 20,
-                                              trainClass.frame.origin.y - 5,
-                                              120,
-                                              30);
-    checkHistoryRecord.backgroundColor = baseColor;
-    [checkHistoryRecord setTintColor:[UIColor whiteColor]];
-    [checkHistoryRecord setTitle:@"查询" forState:UIControlStateNormal];
-    [checkHistoryRecord addTarget:self action:@selector(check:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:checkHistoryRecord];
-    
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(20,
-                                                               CGRectGetMaxY(trainClass.frame) + 40,
-                                                               self.bounds.size.width - 40,
-                                                               self.bounds.size.height - CGRectGetMaxY(trainClass.frame) - 40 - 20)
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,
+                                                               0,
+                                                               self.bounds.size.width ,
+                                                               self.bounds.size.height)
                                               style:UITableViewStylePlain];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -110,12 +88,12 @@
 {
     static NSString *cellidentifier = @"cell";
     
-     HistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
+    HistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
     if (cell == nil)
     {
         cell = [[HistoryTableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:cellidentifier];
-       
-         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+      //  cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     HistoryModel *history = [dataArray objectAtIndex:indexPath.row];
     cell.historyComment   = history;
@@ -138,6 +116,6 @@
 }
 
 - (void)check:(UIButton *)button {
-    
+    [self startRequest];
 }
 @end
