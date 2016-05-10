@@ -16,18 +16,16 @@
 
 #define viewWidth [UIScreen mainScreen].bounds.size.width
 
-#define FONT @"Arial-BoldMT"
+#define FONT @"Arial"
+#define FONT_BOLD @"Arial-BoldMT"
 
 
+ #define BASEURL @"http://192.168.1.90:8080/"
 
-// #define BASEURL @"http://192.168.1.90:8080/"
-
-#define BASEURL @"http://www.guodongwl.com:8065/"
+//#define BASEURL @"http://www.guodongwl.com:8065/"
 
 
 #define CONTENTTYPE @"application/json"
 #import "NSString+Encryption.h"
-// Include any system framework and library headers here that should be included in all compilation units.
-// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
 #endif /* PrefixHeader_pch */

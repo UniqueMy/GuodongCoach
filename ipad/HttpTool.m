@@ -66,10 +66,17 @@
             //   [self connection:manager didReceiveResponse:responseObject];
             
             success(responseObject);
+            
+            if (!([[responseObject objectForKey:@"rc"] intValue] ==0)) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:[responseObject objectForKey:@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                
+                [alert show];
+            }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (fail) { //fail不为空
             fail(error);
+             NSLog(@"error %@",error);
         }
     }];
     // 4.发送请求

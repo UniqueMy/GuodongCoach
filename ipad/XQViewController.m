@@ -49,11 +49,9 @@
 -(void)createView
 {
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, viewWidth, viewHeight-64) style:UITableViewStylePlain];
-    _tableView.delegate = self;
+    _tableView.delegate   = self;
     _tableView.dataSource = self;
-    //_tableView.rowHeight = 400;
     _tableView.backgroundColor = [UIColor clearColor];
-    //_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
     
