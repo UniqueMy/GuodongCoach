@@ -71,12 +71,9 @@
                                                                self.bounds.size.height)
                                               style:UITableViewStylePlain];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     _tableView.dataSource     = self;
     _tableView.delegate       = self;
     [self addSubview:_tableView];
-    
-    
     
 }
 
@@ -93,7 +90,7 @@
     {
         cell = [[HistoryTableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:cellidentifier];
         
-      //  cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     HistoryModel *history = [dataArray objectAtIndex:indexPath.row];
     cell.historyComment   = history;

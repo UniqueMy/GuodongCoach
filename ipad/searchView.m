@@ -101,7 +101,6 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"request.count  %ld",(unsigned long)self.request.count);
     return self.request.count;
 }
 //设置单元格的内容
@@ -136,6 +135,12 @@
     SearchComment *search = [self.request objectAtIndex:indexPath.row];
     //取消选中
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    
+    
+    NSLog(@"search.order %@",search.order_id);
+    
+    
     self.daohangBlock(search.order_id);
     
 }

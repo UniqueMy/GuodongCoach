@@ -11,6 +11,7 @@
 #import "ClientComment.h"
 #import "XQViewController.h"
 #import "bodyTextVC.h"
+#import "DairyViewController.h"
 @implementation clientVC {
    
     ClientComment *baseclient;
@@ -53,7 +54,12 @@
 {
     string = [string mutableCopy];
     _order_id = string;
+    
+    
+    
     NSLog(@"order_id%@",_order_id);
+    
+    
     return string;
 }
 
@@ -144,13 +150,7 @@
                 address.text = [NSString stringWithFormat:@"地址：%@",baseclient.address];
                 
             }
-            
-            
-            
-            
-        }
-        else
-        {
+        } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:[responseObject objectForKey:@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
             
             [alert show];
@@ -165,12 +165,22 @@
     
     for (int i = 0; i < 2; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        button.frame = CGRectMake(650, 180 + 150*i, 270, 80);
+        button.frame = CGRectMake(650, 170 + 120*i, 270, 80);
         [button setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"health%d",i]] forState:UIControlStateNormal];
         button.tag = 17+i;
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
     }
+    
+    
+    UIButton *dairyButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    dairyButton.frame     = CGRectMake(650, 410, 270, 80);
+    dairyButton.backgroundColor = [UIColor colorWithRed:77/255.0 green:77/255.0 blue:77/255.0 alpha:1];
+    [dairyButton setTitle:@"健身日记" forState:UIControlStateNormal];
+    [dairyButton addTarget:self action:@selector(dairyButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [dairyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    dairyButton.titleLabel.font = [UIFont fontWithName:FONT size:20];
+    [self.view addSubview:dairyButton];
     
     
     UILabel *baseLabel = [[UILabel alloc] initWithFrame:CGRectMake(360, 5, 150, 30)];
@@ -282,6 +292,15 @@
     
     
 }
+
+- (void)dairyButtonClick:(UIButton *)button {
+    NSLog(@"健身日记 %@",_order_id);
+    DairyViewController *dairy = [DairyViewController new];
+    dairy.order_id = _order_id;
+    [self.navigationController pushViewController:dairy animated:YES];
+}
+
+
 -(void)biaoButton:(UIButton *)button
 {
     NSLog(@"点击了表按钮");
@@ -294,9 +313,6 @@
     switch (button.tag) {
         case 17:
         {
-//            LookBodyTextVC *body = [LookBodyTextVC new];
-//            body.order_id = _order_id;
-//            [self.navigationController pushViewController:body animated:YES];
             
             bodyTextVC *botyVC = [bodyTextVC new];
             botyVC.order_id = self.order_id;

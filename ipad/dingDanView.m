@@ -135,6 +135,7 @@
         self.block(dingdanCom.order_id,self.coachName);
     }else
     {
+        NSLog(@"导航传值");
          self.daohangBlock1(dingdanCom.order_id);
     }
 

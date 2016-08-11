@@ -43,6 +43,7 @@
         content_sectionArray = [NSMutableArray array];
         for (NSDictionary *dict in [responseObject objectForKey:@"data"]) {
             
+            
             ContentModel *model = [[ContentModel alloc] initWithDictionary:dict];
             [content_sectionArray addObject:model]; // 字典装于数组 判断区数
             
@@ -62,6 +63,8 @@
 #pragma mark - UITableView - Delegate - Datasouce
 - (void)createTableView {
     
+    
+    
     _contentTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,
                                                                       0,
                                                                       self.bounds.size.width - 100,
@@ -73,7 +76,7 @@
     _contentTableView.dataSource   = self;
     _contentTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self addSubview:_contentTableView];
-    
+    NSLog(@"table  %f",_contentTableView.bounds.size.width);
     
     // 设置索引tableView
     _indexTableView = [[UITableView alloc]

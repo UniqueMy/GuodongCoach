@@ -180,6 +180,11 @@
             // 记录
             sanjiaoImageView.frame = CGRectMake(lineLeftWidth ,sanjiaoHeight, 19.2, 39.2);
             CGFloat originY = (button.tag - 1) * 80;
+            
+            
+            
+            
+            
             recordView = [[Record alloc] initWithFrame:viewFrame AllCoachOrigin_Y:originY trainClassArray:content_sctionArray];
             [self.view addSubview:recordView];
             
@@ -189,6 +194,11 @@
             break;
         case 3: {
             // 考核
+            
+            NSLog(@"contentArray %@",content_sctionArray);
+            
+            
+            
             sanjiaoImageView.frame = CGRectMake(lineLeftWidth ,sanjiaoHeight, 19.2, 39.2);
             CGFloat originY = (button.tag - 1) * 80;
             checkView = [[Check alloc] initWithFrame:viewFrame AllCoachOrigin_Y:originY trainClassArray:content_sctionArray];
@@ -204,6 +214,9 @@
 }
 - (void)trainClass:(NSNotification *)notification {
     content_sctionArray = [NSMutableArray array];
+    
+    
+    
     content_sctionArray = notification.userInfo[@"trainClass"];
 }
 #pragma mark - 接收通知 显示教练名字

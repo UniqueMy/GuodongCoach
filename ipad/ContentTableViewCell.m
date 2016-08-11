@@ -26,9 +26,10 @@
         
         
         self.contentLabel           = [UILabel new];
+        self.contentLabel.numberOfLines = 0;
         self.contentLabel.textColor = [UIColor grayColor];
         self.contentLabel.font      = [UIFont fontWithName:FONT size:16];
-        self.contentLabel.textAlignment = 1;
+        self.contentLabel.textAlignment = 0;
         [self addSubview:self.contentLabel];
         
     }
@@ -38,10 +39,10 @@
 - (void)setContentRowModel:(Content_Row_Model *)contentRowModel {
     
     // int height = 44;
-    
+       
     self.nameLabel.text  = contentRowModel.rowName;
     
-    CGSize textSize      = [contentRowModel.content boundingRectWithSize:CGSizeMake(self.bounds.size.width - 60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:FONT size:16]} context:nil].size;
+    CGSize textSize      = [contentRowModel.content boundingRectWithSize:CGSizeMake(512, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:FONT size:16]} context:nil].size;
     self.contentLabel.frame     = CGRectMake(30,
                                              CGRectGetMaxY(self.nameLabel.frame) + 5,
                                              textSize.width,

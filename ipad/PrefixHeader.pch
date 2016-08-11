@@ -20,12 +20,25 @@
 #define FONT_BOLD @"Arial-BoldMT"
 
 
- #define BASEURL @"http://192.168.1.90:8080/"
+ //#define BASEURL @"http://192.168.1.90:8080/"
 
-//#define BASEURL @"http://www.guodongwl.com:8065/"
+#define BASEURL @"http://www.guodongwl.com:8065/"
+/**
+ *  十六进制的颜色值  0xff7d2b
+ */
+#define UIColorFromRGB(rgbValue) \
+[UIColor colorWithRed:  ((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
+green:((float)((rgbValue & 0xFF00)   >> 8))  / 255.0 \
+blue: ((float)( rgbValue & 0xFF))            / 255.0 \
+alpha:1.0]
+
+
+
 
 
 #define CONTENTTYPE @"application/json"
 #import "NSString+Encryption.h"
 
+#import "MJRefresh.h"            // 刷新类
+#import "TextFieldView.h"        // 键盘弹出输入框
 #endif /* PrefixHeader_pch */

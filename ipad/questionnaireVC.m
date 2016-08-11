@@ -32,6 +32,8 @@
     UIScrollView *scrollView;
     UIButton *saveButton;
     NSString *wendaAnswer;
+    NSTimer *uploadTimer;
+    UIAlertView *uploadAlert;
     
 }
 
@@ -44,12 +46,12 @@
     scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     scrollView.contentSize = CGSizeMake(1024, 5000);
     [self.view addSubview:scrollView];
-
+    
     
     self.view.backgroundColor = [UIColor colorWithRed:27.00/255 green:27.00/255 blue:27.00/255 alpha:1];
     NSString *url = [NSString stringWithFormat:@"%@pad/?method=questions.questions&que_type=2&order_id=%@",BASEURL,self.order_id];
     NSLog(@"9999999  %@",url);
-   
+    
     
     /*
      健康问卷取值与传值
@@ -140,7 +142,7 @@
 }
 -(void)saveButtonClick:(UIButton *)button
 {
-   
+    
     //前7个基础问题答案
     for (int a = 1; a < 8; a++) {
         [self addWenAnswerFromView:base Number:[NSString stringWithFormat:@"%d",a] dict:baseDict];
@@ -172,7 +174,7 @@
         [self addWenAnswerFromView:food Number:[NSString stringWithFormat:@"%d",a] dict:foodDict];
     }
     //食物分析
-    NSLog(@"上传食物分析 %@",food.foodAnalyzeArray);
+    //  NSLog(@"上传食物分析 %@",food.foodAnalyzeArray);
     
     [self addXuanAnswerFromView:food    Number:@"20" xuanArray:food.foodAnalyzeArray dict:foodDict];
     //饮食规律
@@ -202,7 +204,7 @@
     //韧带肌肉状况
     [self addWenAnswerFromView:health   Number:@"31" dict:healthDict];
     //疾病
-    NSLog(@"疾病 %@",health.diseaseArray);
+    // NSLog(@"疾病 %@",health.diseaseArray);
     [self addXuanAnswerFromView:health  Number:@"32" xuanArray:health.diseaseArray dict:healthDict];
     //其他疾病备注
     [self addWenAnswerFromView:health   Number:@"48" dict:healthDict];
@@ -267,9 +269,9 @@
         return;
     }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"正在上传" delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
+    uploadAlert = [[UIAlertView alloc] initWithTitle:nil message:@"正在上传" delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
     
-    [alert show];
+    [uploadAlert show];
     NSString *url = [NSString stringWithFormat:@"%@pad/?method=questions.save_questions&order_id=%@&que_type=2",BASEURL,self.order_id];
     //    NSLog(@"irl   %@",url);
     //    NSLog(@"order_id  %@",self.order_id);
@@ -282,20 +284,24 @@
     //如果报接受类型不一致请替换一致text/html或别的
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:CONTENTTYPE];
     //发送请求
+    
+    // 30s超时设置
+     manager.requestSerializer.timeoutInterval = 20;
     [manager POST:url parameters:allAnswerArray success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //  NSLog(@"JSON: %@", responseObject);
         //  [all_array removeAllObjects];
         if ([[responseObject objectForKey:@"rc"] intValue] == 0) {
             
-            [alert setMessage:@"保存成功"];
-           
-            [alert dismissWithClickedButtonIndex:0 animated:NO];
-           [NSThread sleepForTimeInterval:2.0f];
+            [uploadAlert setMessage:@"保存成功"];
             [self.navigationController popViewControllerAnimated:YES];
         }
+        [uploadAlert dismissWithClickedButtonIndex:0 animated:NO];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [uploadAlert dismissWithClickedButtonIndex:0 animated:NO];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         
         [alert show];
     }];
@@ -303,11 +309,13 @@
     [allAnswerArray removeAllObjects];
     
 }
+
+
 //添加问答题答案到参数数组中
 -(void)addWenAnswerFromView:(UIView *)view Number:(NSString *)number dict:(NSDictionary *)messageDict
 {
     
-   // NSLog(@"messageDict %@",messageDict);
+    // NSLog(@"messageDict %@",messageDict);
     
     NSString * issue_id = [[[messageDict objectForKey:@"ques"] objectForKey:number] objectForKey:@"id"];
     if (!(UITextField *)[view viewWithTag:[number intValue]] ) {
@@ -322,7 +330,7 @@
             wendaAnswer = [(UITextField *)[view viewWithTag:[number intValue]] text];
         }
     }
-   // NSLog(@"answer %@  id  %@",wendaAnswer,issue_id);
+    // NSLog(@"answer %@  id  %@",wendaAnswer,issue_id);
     
     NSDictionary *dict = @{@"answer":[NSArray arrayWithObject:wendaAnswer],@"issue_id":issue_id,@"issue_type":@"2"};
     NSLog(@"dict %@",dict);
@@ -333,15 +341,12 @@
 {
     
     NSString *issue_id = [[[messageDict objectForKey:@"ques"] objectForKey:number] objectForKey:@"id"];
-     NSLog(@"answer %@  id  %@",array,issue_id);
+    NSLog(@"answer %@  id  %@",array,issue_id);
     
     NSDictionary *dict = @{@"answer":array,@"issue_id":issue_id,@"issue_type":@"1"};
     [allAnswerArray addObject:dict];
 }
-//- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-//{
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
+
 
 -(void)goback:(UIButton *)button
 {

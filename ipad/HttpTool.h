@@ -14,6 +14,8 @@
 typedef void(^SuccessBlock)(id responseObject);
 typedef void(^FailBlock)(NSError *error);
 
+typedef void (^SuccessProgressBlock)(id operation,id responseObject);
+
 @interface HttpTool : NSObject<QCheckBoxDelegate>
 + (void)postWithUrl:(NSString *)urlStr params:(NSDictionary *)params contentType:(NSString *)type success:(SuccessBlock)success fail:(FailBlock)fail;
 
@@ -44,5 +46,5 @@ typedef void(^FailBlock)(NSError *error);
 //健康问卷问答题的设置方法
 +(UIView *)wenViewWithFrame:(CGRect)labelFrame textFieldWidth:(CGFloat)width  questionDict:(NSDictionary *)quesDict numberWithKey:(NSString *)key;
 
-
++ (NSString *)getUser_id;
 @end

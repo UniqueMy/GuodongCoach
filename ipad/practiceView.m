@@ -73,6 +73,8 @@
         if ([[responseObject objectForKey:@"rc"] intValue] == 0)
         {
             
+            NSLog(@"数据  %@",responseObject);
+            
             NSArray *dataArray = [responseObject objectForKey:@"data"];
             
             

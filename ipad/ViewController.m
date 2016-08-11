@@ -19,7 +19,7 @@
 #import "ingamendViewController.h"
 #import "TrainingViewController.h"
 #import "KPIView.h"
-
+#import "InteractiveView.h"
 @interface ViewController ()
 {
     int viewheight;
@@ -136,7 +136,10 @@
     
     [mainView addSubview:personview.view];
     
-    NSArray *array = @[@"个人",@"搜索",@"订单",@"训练",@"培训",@"绩效"];
+    NSArray *array = @[@"个人",@"搜索",@"订单",@"训练",@"培训",@"绩效",@"答疑"];
+   //  NSArray *array = @[@"个人",@"搜索",@"订单",@"训练",@"培训",@"绩效"];
+    
+    //  NSArray *array = @[@"个人",@"搜索",@"订单",@"训练"];
     for (int i = 0; i < array.count; i++) {
         main_button       = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         main_button.frame = CGRectMake(0,
@@ -216,6 +219,7 @@
     UIButton *button4 = (UIButton *)[self.view viewWithTag:400];
     UIButton *button5 = (UIButton *)[self.view viewWithTag:500];
     UIButton *button6 = (UIButton *)[self.view viewWithTag:600];
+    UIButton *button7 = (UIButton *)[self.view viewWithTag:700];
     
     //button.backgroundColor = [UIColor blackColor];
     switch (button.tag)
@@ -229,7 +233,7 @@
             button4.backgroundColor = [UIColor blackColor];
             button5.backgroundColor = [UIColor blackColor];
             button6.backgroundColor = [UIColor blackColor];
-            
+            button7.backgroundColor = [UIColor blackColor];
             
             
             titlelabel.text = @"个人信息";
@@ -289,6 +293,7 @@
             button4.backgroundColor = [UIColor blackColor];
             button5.backgroundColor = [UIColor blackColor];
             button6.backgroundColor = [UIColor blackColor];
+            button7.backgroundColor = [UIColor blackColor];
             titlelabel.text = @"搜索引擎";
             
             searchView   *search     = [searchView sharedViewControllerManager];
@@ -297,7 +302,7 @@
             
             search.daohangBlock = ^(NSString *order_id){
                 clientVC *client = [[clientVC alloc] init];
-            //    NSString *or = [client setString2:order_id];
+                NSString *or = [client setString2:order_id];
                 
                 [self.navigationController pushViewController:client animated:YES];
             };
@@ -314,6 +319,7 @@
             button4.backgroundColor = [UIColor blackColor];
             button5.backgroundColor = [UIColor blackColor];
             button6.backgroundColor = [UIColor blackColor];
+            button7.backgroundColor = [UIColor blackColor];
             titlelabel.text = @"我的订单";
             
             dingDanView  *dingDan    = [dingDanView sharedViewControllerManager];
@@ -402,6 +408,7 @@
             button4.backgroundColor = [UIColor orangeColor];
             button5.backgroundColor = [UIColor blackColor];
             button6.backgroundColor = [UIColor blackColor];
+            button7.backgroundColor = [UIColor blackColor];
             
             NSString *url = [NSString stringWithFormat:@"%@pad/?method=coach.my_training",BASEURL];
             [HttpTool postWithUrl:url params:nil contentType:CONTENTTYPE success:^(id responseObject) {
@@ -436,10 +443,6 @@
                 
             }];
             
-            
-            
-            
-            
         }
             break;
         case 500: {
@@ -450,6 +453,9 @@
             button4.backgroundColor = [UIColor blackColor];
             button5.backgroundColor = [UIColor orangeColor];
             button6.backgroundColor = [UIColor blackColor];
+            button7.backgroundColor = [UIColor blackColor];
+            
+            titlelabel.text = @"我的培训";
             
             TrainingViewController *trainView = [TrainingViewController sharedViewControllerManager];
             [mainView addSubview:trainView.view];
@@ -463,9 +469,28 @@
             button4.backgroundColor = [UIColor blackColor];
             button5.backgroundColor = [UIColor blackColor];
             button6.backgroundColor = [UIColor orangeColor];
+            button7.backgroundColor = [UIColor blackColor];
+            
+            titlelabel.text = @"我的绩效";
             
             KPIView *kpi = [KPIView new];
             [mainView addSubview:kpi];
+        }
+            break;
+        case 700: {
+            NSLog(@"互动");
+            button1.backgroundColor = [UIColor blackColor];
+            button2.backgroundColor = [UIColor blackColor];
+            button3.backgroundColor = [UIColor blackColor];
+            button4.backgroundColor = [UIColor blackColor];
+            button5.backgroundColor = [UIColor blackColor];
+            button6.backgroundColor = [UIColor blackColor];
+            button7.backgroundColor = [UIColor orangeColor];
+            
+            titlelabel.text = @"用户答疑";
+            
+            InteractiveView *interactive = [InteractiveView new];
+            [mainView addSubview:interactive];
         }
             break;
         default:

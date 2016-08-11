@@ -42,6 +42,10 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (fail) {
             fail(error);
+             NSLog(@"error %@",error);
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"服务器错误，正在排查中..." delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
         }
     }];
 
@@ -68,7 +72,7 @@
             success(responseObject);
             
             if (!([[responseObject objectForKey:@"rc"] intValue] ==0)) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:[responseObject objectForKey:@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[responseObject objectForKey:@"msg"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 
                 [alert show];
             }
@@ -193,6 +197,14 @@
     
     return view;
     
+}
+
++ (NSString *)getUser_id {
+    NSHTTPCookieStorage* sharedHTTPCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray* cookies = [sharedHTTPCookieStorage cookiesForURL:[NSURL URLWithString:BASEURL]];
+    
+    NSHTTPCookie *cookie = [cookies firstObject];
+    return cookie.value;
 }
 
 @end

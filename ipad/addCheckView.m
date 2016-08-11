@@ -40,14 +40,12 @@
         trainClassArray = array;
         coach_id        = coach;
         [self createUI];
-        [self startRequest];
+       
     }
     return self;
 }
 
-- (void)startRequest {
-    
-}
+
 
 - (void)createUI {
     
